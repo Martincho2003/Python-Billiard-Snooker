@@ -1,7 +1,6 @@
 from tkinter import *
 import sqlite3
 import hashlib
-import tkinter
 
 connection = sqlite3.connect('User.db')
 cursor = connection.cursor()
@@ -30,7 +29,6 @@ def starting_page(check_register):
     Button(window, text="Register", command=register_page).grid(row=4, column=1)
     Label(window, background="Green").grid(row=5, column=1)
     Button(window, text="Login", command=login_page).grid(row=6, column=1)
-
 
 def create_table():
     cursor.execute('CREATE TABLE if not exists Users (id INTEGER primary key autoincrement not null, Username VARCHAR(50) not null unique, Password VARCHAR(50) not null, wins INTEGER default 0, loses INTEGER default 0)')
@@ -61,7 +59,6 @@ def register(username, pasword):
     else:
         register_page()
 
-
 def register_page():
     for widget in window.winfo_children():
         widget.destroy()
@@ -73,6 +70,7 @@ def register_page():
     pas = StringVar(window)
     Entry(window, textvariable=pas, show='*').grid(row=1, column=1)
     Button(window, text="Register", command= lambda: register(user, pas)).grid(row=3, column=1)
+    Button(window, text="Back", command= lambda: starting_page(0)).grid(row=5, column=1)
 
 def login(username, password):
     cursor.execute('Select Password from Users where Username like ?;', [username.get()])
@@ -88,8 +86,7 @@ def login(username, password):
         login_page()
     else:
         if(recieved_tuple[0] == hash_password(password.get())):
-            window.destroy()
-            #starting game
+            starting_game_page()
         else:
             err_window = Tk()
             err_window.title("Error")
@@ -110,6 +107,29 @@ def login_page():
     pas = StringVar(window)
     Entry(window, textvariable=pas, show='*').grid(row=1, column=1)
     Button(window, text="Login", command= lambda: login(user, pas)).grid(row=3, column=1)
+    Button(window, text="Back", command= lambda: starting_page(0)).grid(row=5, column=1)
+
+def starting_game_page():
+    for widget in window.winfo_children():
+        widget.destroy()
+    window.grid_columnconfigure(1, weight=1)
+    window.grid_rowconfigure(3, weight=1)
+    Button(window, text="Create game", command="""TODO""").grid(row=1, column=1)
+    Button(window, text="Join game", command=join_game_page).grid(row=3, column=1)
+
+def join_game_page():
+    for widget in window.winfo_children():
+        widget.destroy()
+    window.grid_columnconfigure(2, weight=1)
+    window.grid_rowconfigure(1, weight=1)
+    server_code = StringVar(window)
+    Entry(window, textvariable=server_code).grid(row=1, column=1)
+    Button(window, text="Join game", command=join_game(server_code)).grid(row=1, column=2)
+
+def join_game(server_code):
+    #server.get() - that's for getting the code
+    #TODO
+    window.destroy() #if success
 
 def main():
     create_table()
