@@ -9,9 +9,9 @@ import hashlib
 
 
 # flags
-PORT = 8080 # random unused port on this PC, could be anything above 4000
-SERVER_IP = socket.gethostbyname(socket.gethostname()) # local IP of this PC
-#SERVER_IP = "0.0.0.0"
+PORT = 9001 # random unused port on this PC, could be anything above 4000
+#SERVER_IP = socket.gethostbyname(socket.gethostname()) # local IP of this PC
+SERVER_IP = ""
 ADDRES = (SERVER_IP, PORT) # socket information
 BUFFER = 1024 # integer that's used to get the size of the message that will be received/sent
 FORMAT = 'utf-8' # thats the format it better stay like that

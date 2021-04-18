@@ -8,9 +8,9 @@ import hashlib
 from game import run
 
 # global variables...
-PORT = 8080 # port of the server PC
-SERVER_IP = "192.168.56.1" # local IP of the CURRENT server PC
-#SERVER_IP = "213.191.161.44" # PUBLIC IP OF THE CURRENT SERVER
+PORT = 9001 # port of the server PC
+#SERVER_IP = "127.0.1.1" # local IP of the CURRENT server PC
+SERVER_IP = "" # PUBLIC IP OF THE CURRENT SERVER
 ADDRES = (SERVER_IP, PORT) # server socket information
 BUFFER = 1024 # it's used to get the size of the message that will be sent/received
 FORMAT = 'utf-8' # thats the format it better stay like that
