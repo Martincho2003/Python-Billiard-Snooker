@@ -3,6 +3,16 @@ import pyautogui
 from PIL import Image
 from pygame.mouse import get_pos
 
+radius = 15*2
+ball_positions = [[280, 285],[670, 285],[670+radius, 285-(radius/2)-1],
+                    [670+radius, 285+(radius/2)+1],[670+(radius*2), 285-radius-1],
+                    [670+(radius*2), 285],[670+(radius*2), 285+radius+1],
+                    [670+(radius*3), 285-(radius+(radius/2))-2],[670+(radius*3), 285-(radius/2)-1],
+                    [670+(radius*3), 285+(radius/2)+1],[670+(radius*3), 285+(radius+(radius/2))+2],
+                    [670+(radius*4), 285-(radius*2)-2],[670+(radius*4), 285-radius-1],
+                    [670+(radius*4), 285],[670+(radius*4), 285+radius+1],
+                    [670+(radius*4), 285+(radius*2)+2]]
+
 class Visible_ball():
     def __init__(self, path):
         self.ball = pygame.image.load(path)
@@ -13,10 +23,13 @@ class Visible_ball():
 
 class Invisible_ball():
     def __init__(self, screen, x, y, color):
-        self.ball = pygame.draw.circle(screen, color, (x, y), 15)
+        self.screen = screen
+        self.color = color
+        self.ball = pygame.draw.circle(screen, color, (x, y), radius/2)
 
-    def move(self):
-        pass
+    def move(self, x, y):
+        self.screen.fill("red")
+        move_invisible_balls(self.screen)
 
 def make_visible_balls(screen):
     white_ball = Visible_ball("Pictures/White_ball.png")
@@ -67,25 +80,24 @@ def make_visible_balls(screen):
     ball12 = Visible_ball("Pictures/Ball_12.png")
     ball12.place(screen, 960, 460)
     
-def make_invisible_balls(screen):
-    white_ball = Invisible_ball(screen, 280, 285, (255,255,255))
+def move_invisible_balls(screen):
+    white_ball = Invisible_ball(screen, ball_positions[0][0], ball_positions[0][1], (255,255,255))
     
-    radius = 15*2
-    ball1 = Invisible_ball(screen, 670, 285, (0,0,0))
-    ball11 = Invisible_ball(screen, 670+radius, 285-(radius/2)-1, (0,0,0))
-    ball3 = Invisible_ball(screen, 670+radius, 285+(radius/2)+1, (0,0,0))
-    ball6 = Invisible_ball(screen, 670+(radius*2), 285-radius-1, (0,0,0))
-    ball8 = Invisible_ball(screen, 670+(radius*2), 285, (0,0,0))
-    ball14 = Invisible_ball(screen, 670+(radius*2), 285+radius+1, (0,0,0))
-    ball13 = Invisible_ball(screen, 670+(radius*3), 285-(radius+(radius/2))-2, (0,0,0))
-    ball15 = Invisible_ball(screen, 670+(radius*3), 285-(radius/2)-1, (0,0,0))
-    ball4 = Invisible_ball(screen, 670+(radius*3), 285+(radius/2)+1, (0,0,0))
-    ball9 = Invisible_ball(screen, 670+(radius*3), 285+(radius+(radius/2))+2, (0,0,0))
-    ball7 = Invisible_ball(screen, 670+(radius*4), 285-(radius*2)-2, (0,0,0))
-    ball2 = Invisible_ball(screen, 670+(radius*4), 285-radius-1, (0,0,0))
-    ball10 = Invisible_ball(screen, 670+(radius*4), 285, (0,0,0))
-    ball5 = Invisible_ball(screen, 670+(radius*4), 285+radius+1, (0,0,0))
-    ball12 = Invisible_ball(screen, 670+(radius*4), 285+(radius*2)+2, (0,0,0))
+    ball1 = Invisible_ball(screen, ball_positions[1][0], ball_positions[1][1], (0,0,0))
+    ball11 = Invisible_ball(screen, ball_positions[2][0], ball_positions[2][1], (0,0,0))
+    ball3 = Invisible_ball(screen, ball_positions[3][0], ball_positions[3][1], (0,0,0))
+    ball6 = Invisible_ball(screen, ball_positions[4][0], ball_positions[4][1], (0,0,0))
+    ball8 = Invisible_ball(screen, ball_positions[5][0], ball_positions[5][1], (0,0,0))
+    ball14 = Invisible_ball(screen, ball_positions[6][0], ball_positions[6][1], (0,0,0))
+    ball13 = Invisible_ball(screen, ball_positions[7][0], ball_positions[7][1], (0,0,0))
+    ball15 = Invisible_ball(screen, ball_positions[8][0], ball_positions[8][1], (0,0,0))
+    ball4 = Invisible_ball(screen, ball_positions[9][0], ball_positions[9][1], (0,0,0))
+    ball9 = Invisible_ball(screen, ball_positions[10][0], ball_positions[10][1], (0,0,0))
+    ball7 = Invisible_ball(screen, ball_positions[11][0], ball_positions[11][1], (0,0,0))
+    ball2 = Invisible_ball(screen, ball_positions[12][0], ball_positions[12][1], (0,0,0))
+    ball10 = Invisible_ball(screen, ball_positions[13][0], ball_positions[13][1], (0,0,0))
+    ball5 = Invisible_ball(screen, ball_positions[14][0], ball_positions[14][1], (0,0,0))
+    ball12 = Invisible_ball(screen, ball_positions[15][0], ball_positions[15][1], (0,0,0))
 
 def draw_table(screen):
     pygame.draw.line(screen, (0,0,0), (105,63), (470,63))
@@ -103,7 +115,7 @@ def draw_holes(screen):
     pygame.draw.circle(screen, (0,0,0), (501, 533), 11)
     pygame.draw.circle(screen, (0,0,0), (939, 507), 11)
 
-def run(client_socket):
+def run():#client_socket):
     width, height = pyautogui.size()
     table = Image.open("Pictures/Table.png")
     icon = pygame.image.load("Pictures/Icon.png")
@@ -125,7 +137,24 @@ def run(client_socket):
     screen.blit(invisible_layer, [0,0])
     draw_table(visible_layer)
     draw_holes(visible_layer)
-    make_invisible_balls(visible_layer)
+
+    white_ball = Invisible_ball(visible_layer, ball_positions[0][0], ball_positions[0][1], (255,255,255))
+    ball1 = Invisible_ball(visible_layer, ball_positions[1][0], ball_positions[1][1], (0,0,0))
+    ball11 = Invisible_ball(visible_layer, ball_positions[2][0], ball_positions[2][1], (0,0,0))
+    ball3 = Invisible_ball(visible_layer, ball_positions[3][0], ball_positions[3][1], (0,0,0))
+    ball6 = Invisible_ball(visible_layer, ball_positions[4][0], ball_positions[4][1], (0,0,0))
+    ball8 = Invisible_ball(visible_layer, ball_positions[5][0], ball_positions[5][1], (0,0,0))
+    ball14 = Invisible_ball(visible_layer, ball_positions[6][0], ball_positions[6][1], (0,0,0))
+    ball13 = Invisible_ball(visible_layer, ball_positions[7][0], ball_positions[7][1], (0,0,0))
+    ball15 = Invisible_ball(visible_layer, ball_positions[8][0], ball_positions[8][1], (0,0,0))
+    ball4 = Invisible_ball(visible_layer, ball_positions[9][0], ball_positions[9][1], (0,0,0))
+    ball9 = Invisible_ball(visible_layer, ball_positions[10][0], ball_positions[10][1], (0,0,0))
+    ball7 = Invisible_ball(visible_layer, ball_positions[11][0], ball_positions[11][1], (0,0,0))
+    ball2 = Invisible_ball(visible_layer, ball_positions[12][0], ball_positions[12][1], (0,0,0))
+    ball10 = Invisible_ball(visible_layer, ball_positions[13][0], ball_positions[13][1], (0,0,0))
+    ball5 = Invisible_ball(visible_layer, ball_positions[14][0], ball_positions[14][1], (0,0,0))
+    ball12 = Invisible_ball(visible_layer, ball_positions[15][0], ball_positions[15][1], (0,0,0))
+
     screen.blit(visible_layer, [0,0])
     
 
@@ -135,8 +164,14 @@ def run(client_socket):
         for event in pygame.event.get():
             print(get_pos())
             if event.type == pygame.QUIT:
-                client_socket.close()
+                #client_socket.close()
                 running = False
-    
+            if event.type == pygame.KEYDOWN:
+                ball_positions[0][1] += 1
+                white_ball.move(ball_positions[0][0], ball_positions[0][1])
+
+        screen.blit(visible_layer, [0,0])
         pygame.display.flip()
         clock.tick(30)
+
+run()
