@@ -3,7 +3,7 @@
 It is still in development.
 
 How to start:
-1. git pull https://github.com/Martincho2003/Python-Billiard-Snooker.git
+1. git clone https://github.com/Martincho2003/Python-Billiard-Snooker.git
 2. Go to the directory
 3. pip install -r requirements.txt
 4. Start the server with "python3 server.py"
