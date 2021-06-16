@@ -307,7 +307,7 @@ def height_pygame(y, height):
     new_height = height - y
     return new_height
 
-def run():#client_socket):
+def run(client_socket):
     width, height = pyautogui.size()
     table = Image.open("Pictures/Table.png")
     icon = pygame.image.load("Pictures/Icon.png")
@@ -391,7 +391,7 @@ def run():#client_socket):
             x1,y1 = get_pos()
             #print(get_pos())
             if event.type == pygame.QUIT:
-                #client_socket.close()
+                client_socket.close()
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x2,y2 = get_pos()
@@ -409,4 +409,8 @@ def run():#client_socket):
         pygame.display.flip()
         clock.tick(60)
 
-run()
+
+
+
+
+
